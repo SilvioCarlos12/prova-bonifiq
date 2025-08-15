@@ -17,7 +17,7 @@ namespace ProvaPub.Services
         }
         public async Task<int> GetRandom()
 		{
-            var number =  new Random().Next(1000);
+            var number =  new Random().Next(100);
             var numberExist = _ctx.Numbers.Where(x => x.Number == number).Any();
             if (numberExist)
                 return number;
