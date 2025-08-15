@@ -7,14 +7,19 @@ namespace ProvaPub.Services
 {
     public class CustomerService: ICustomerService
     {
+        private DateTime _datebusinessHours = DateTime.UtcNow;
 
         private readonly ICustomerRepository _customerRepository;
 
-        public CustomerService( ICustomerRepository customerRepository)
+        public CustomerService(ICustomerRepository customerRepository)
         {
             _customerRepository = customerRepository;
         }
-
+        public CustomerService(ICustomerRepository customerRepository, DateTime datebusinessHours)
+        {
+            _customerRepository = customerRepository;
+            _datebusinessHours = datebusinessHours;
+        }
         public async Task<Pagination<Customer>> ListCustomers(int page,CancellationToken cancellationToken)
         {
             var countCustomer = await _customerRepository.CustomerTotal(cancellationToken);
@@ -44,7 +49,7 @@ namespace ProvaPub.Services
                 return false;
 
             //Business Rule: A customer can purchases only during business hours and working days
-            if (DateTime.UtcNow.Hour < 8 || DateTime.UtcNow.Hour > 18 || DateTime.UtcNow.DayOfWeek == DayOfWeek.Saturday || DateTime.UtcNow.DayOfWeek == DayOfWeek.Sunday)
+            if (_datebusinessHours.Hour < 8 || _datebusinessHours.Hour > 18 || _datebusinessHours.DayOfWeek == DayOfWeek.Saturday || _datebusinessHours.DayOfWeek == DayOfWeek.Sunday)
                 return false;
 
 
