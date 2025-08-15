@@ -7,5 +7,14 @@
 		public int CustomerId { get; set; }
 		public DateTime OrderDate { get; set; }
 		public Customer Customer { get; set; }
-	}
+
+		public Order(decimal value, int customerId)
+		{
+			OrderDate = DateTime.UtcNow;
+			CustomerId = customerId;
+			Value = value;
+        }
+
+
+    }
 }

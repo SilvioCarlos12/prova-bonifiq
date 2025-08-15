@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using ProvaPub.ChainOfResponsibility;
 using ProvaPub.Repository;
 using ProvaPub.Services;
 using ProvaPub.Services.Interfaces;
@@ -18,6 +19,8 @@ builder.Services.AddDbContext<TestDbContext>(options =>
 
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<ICreatePayment, CreatePayment>();
+builder.Services.AddScoped<IOrderService, OrderService>();	
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
