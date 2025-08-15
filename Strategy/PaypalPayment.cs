@@ -5,7 +5,7 @@ namespace ProvaPub.Strategy
 {
     public class PaypalPayment : IPaymentStrategy
     {
-        public string GetTypePayment()
+        public string GetNameMethodPayment()
         {
             return "PayPal";
         }

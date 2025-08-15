@@ -1,33 +1,28 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ProvaPub.Dtos;
-using ProvaPub.Extensions;
+﻿using ProvaPub.Dtos;
 using ProvaPub.Models;
-using ProvaPub.Repository;
+using ProvaPub.Repository.Interfaces;
 using ProvaPub.Services.Interfaces;
 
 namespace ProvaPub.Services
 {
 	public class ProductService: IProductService
     {
-		TestDbContext _ctx;
 
-		public ProductService(TestDbContext ctx)
+		private readonly IProductRepository _produtoRepository;
+
+        public ProductService(IProductRepository produtoRepository)
+        {
+            _produtoRepository = produtoRepository;
+        }
+
+        public async Task<Pagination<Product>> ListProducts(int page, CancellationToken cancellationToken)
 		{
-			_ctx = ctx;
-		}
 
-		public Pagination<Product>  ListProducts(int page)
-		{
-			   
-		        var countProducts = _ctx.Products.Count();
+			var countProducts = await _produtoRepository.TotalProduct(cancellationToken);
 
-			    var produtos = _ctx.Products
-				.PaginationQuery(page)
-				.AsNoTracking()
-				.OrderBy(x=> x.Id)
-				.ToList();
+			var produtos = await _produtoRepository.GetProductsPagination(page, cancellationToken);
 
-				return new Pagination<Product>(produtos,countProducts, page);
+		    return new Pagination<Product>(produtos,countProducts, page);
 		}
 
 	}

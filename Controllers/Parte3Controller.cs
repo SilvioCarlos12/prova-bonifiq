@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ProvaPub.Dtos;
 using ProvaPub.Enums;
 using ProvaPub.Models;
 using ProvaPub.Repository;
@@ -29,11 +30,11 @@ namespace ProvaPub.Controllers
             _orderService = orderService;
         }
 
-        [HttpGet("orders")]
-		public async Task<Order> PlaceOrder(Payment paymentMethod, decimal paymentValue, int customerId)
+        [HttpPost("orders")]
+		public async Task<Order> PlaceOrder(OrderInsertDto orderInsertDto, CancellationToken cancellationToken)
 		{
 
-            return await _orderService.PayOrder(paymentMethod, paymentValue, customerId);
+            return await _orderService.PayOrder(orderInsertDto, cancellationToken);
 
         }
 	}

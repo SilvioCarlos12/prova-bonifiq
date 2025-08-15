@@ -4,21 +4,29 @@ using ProvaPub.Strategy.Interfaces;
 
 namespace ProvaPub.ChainOfResponsibility
 {
-    public class CreatePayment: ICreatePayment
+    public class CreatePayment : ICreatePayment
     {
         private List<IPaymentStrategy> _paymentStrategies;
 
-       public CreatePayment()
+        public CreatePayment()
         {
             _paymentStrategies = new List<IPaymentStrategy>();
             AddPayments();
         }
 
-        public IPaymentStrategy GetPaymentStrategy(Payment typePayment)
+        public IPaymentStrategy GetMethodPayment(Payment typePayment)
         {
-            return _paymentStrategies.Single(x => x.TypePaymentValid(typePayment));
-        }
+            if (ExistPayment(typePayment))
+            {
+                return _paymentStrategies.Single(x => x.TypePaymentValid(typePayment));
+            }
 
+            return _paymentStrategies.First();
+        }
+        private bool ExistPayment(Payment typePayment)
+        {
+            return Enum.IsDefined(typePayment);
+        }
         private void AddPayments()
         {
             _paymentStrategies.Add(new PaypalPayment());

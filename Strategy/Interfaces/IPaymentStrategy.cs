@@ -4,7 +4,7 @@ namespace ProvaPub.Strategy.Interfaces
 {
     public interface IPaymentStrategy
     {
-        string GetTypePayment();
+        string GetNameMethodPayment();
         bool TypePaymentValid(Payment typePayment);
     }
 }

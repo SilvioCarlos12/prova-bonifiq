@@ -1,38 +1,34 @@
 ﻿using ProvaPub.ChainOfResponsibility;
-using ProvaPub.Enums;
+using ProvaPub.Dtos;
 using ProvaPub.Models;
-using ProvaPub.Repository;
+using ProvaPub.Repository.Interfaces;
 using ProvaPub.Services.Interfaces;
 
 namespace ProvaPub.Services
 {
 	public class OrderService: IOrderService
     {
-        TestDbContext _ctx;
         private readonly ICreatePayment _createPayment;
+        private readonly IOrderRepository _orderRepository;
 
-        public OrderService(TestDbContext ctx, ICreatePayment createPayment)
+        public OrderService(ICreatePayment createPayment, IOrderRepository orderRepository)
         {
-            _ctx = ctx;
             _createPayment = createPayment;
+            _orderRepository = orderRepository;
         }
 
-        public async Task<Order> PayOrder(Payment paymentMethod, decimal paymentValue, int customerId)
+        public async Task<Order> PayOrder(OrderInsertDto orderInsertDto, CancellationToken cancellationToken)
 		{
-            var typePayment = _createPayment.GetPaymentStrategy(paymentMethod);
+            var typePayment = _createPayment.GetMethodPayment(orderInsertDto.PaymentMethod);
 
-
-            return await InsertOrder(new Order(paymentValue,customerId));
-
-
+            return await InsertOrder(new Order(orderInsertDto.PaymentValue, orderInsertDto.CustomerId,typePayment.GetNameMethodPayment()),cancellationToken);
 		}
 
-		public async Task<Order> InsertOrder(Order order)
+		public async Task<Order> InsertOrder(Order order, CancellationToken cancellationToken)
         {
-            var orderInsert = (await _ctx.Orders.AddAsync(order)).Entity;
-            await _ctx.SaveChangesAsync();
-            orderInsert.OrderDate = orderInsert.OrderDate.AddHours(-3);
-            return orderInsert;
+            await _orderRepository.Insert(order, cancellationToken);
+            order.OrderDate = order.OrderDate.AddHours(-3);
+            return order;
         }
 	}
 }

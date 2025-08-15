@@ -21,7 +21,14 @@ namespace ProvaPub.Repository
 			modelBuilder.Entity<Product>().HasData(getProductSeed());
 
 			modelBuilder.Entity<RandomNumber>().HasIndex(s => s.Number).IsUnique();
-		}
+			modelBuilder.Entity<Order>(entity =>
+			{
+                entity.Property(p => p.MethodPayment)
+				   .HasMaxLength(200)      
+				   .IsRequired();
+				entity.Property(p => p.Value).HasPrecision(10, 2).IsRequired();
+            });
+        }
 
 		private Customer[] getCustomerSeed()
 		{

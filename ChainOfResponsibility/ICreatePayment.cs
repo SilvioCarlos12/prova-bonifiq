@@ -5,6 +5,6 @@ namespace ProvaPub.ChainOfResponsibility
 {
     public interface ICreatePayment
     {
-        IPaymentStrategy GetPaymentStrategy(Payment typePayment);
+        IPaymentStrategy GetMethodPayment(Payment typePayment);
     }
 }

@@ -5,7 +5,7 @@ namespace ProvaPub.Strategy
 {
     public class CreditCardPayment : IPaymentStrategy
     {
-        public string GetTypePayment()
+        public string GetNameMethodPayment()
         {
             return "CreditCard";
         }

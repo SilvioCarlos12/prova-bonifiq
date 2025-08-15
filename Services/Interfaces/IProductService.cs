@@ -5,6 +5,6 @@ namespace ProvaPub.Services.Interfaces
 {
     public interface IProductService
     {
-        Pagination<Product> ListProducts(int page);
+        Task<Pagination<Product>> ListProducts(int page,CancellationToken cancellationToken);
     }
 }
