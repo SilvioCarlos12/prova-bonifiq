@@ -17,7 +17,7 @@ namespace ProvaPub.Services
         }
         public async Task<int> GetRandom()
 		{
-            var number =  new Random().Next(100);
+            var number =  new Random().Next(1000);
             _ctx.Numbers.Add(new RandomNumber() { Number = number });
             _ctx.SaveChanges();
 			return number;
