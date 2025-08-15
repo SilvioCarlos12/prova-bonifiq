@@ -5,7 +5,7 @@ namespace ProvaPub.Services.Interfaces
 {
     public interface ICustomerService
     {
-        Pagination<Customer> ListCustomers(int page);
-        Task<bool> CanPurchase(int customerId, decimal purchaseValue);
+        Task<Pagination<Customer>> ListCustomers(int page, CancellationToken cancellationToken);
+        Task<bool> CanPurchase(int customerId, decimal purchaseValue,CancellationToken cancellationToken);
     }
 }

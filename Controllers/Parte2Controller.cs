@@ -30,9 +30,9 @@ namespace ProvaPub.Controllers
 		}
 
 		[HttpGet("customers")]
-		public Pagination<Customer> ListCustomers(int page, [FromServices] ICustomerService customerService)
+		public async Task<Pagination<Customer>> ListCustomers(int page, [FromServices] ICustomerService customerService, CancellationToken cancellationToken)
 		{
-			return customerService.ListCustomers(page);
+			return await customerService.ListCustomers(page, cancellationToken);
 		}
 	}
 }
