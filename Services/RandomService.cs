@@ -18,6 +18,9 @@ namespace ProvaPub.Services
         public async Task<int> GetRandom()
 		{
             var number =  new Random().Next(1000);
+            var numberExist = _ctx.Numbers.Where(x => x.Number == number).Any();
+            if (numberExist)
+                return number;
             _ctx.Numbers.Add(new RandomNumber() { Number = number });
             _ctx.SaveChanges();
 			return number;
