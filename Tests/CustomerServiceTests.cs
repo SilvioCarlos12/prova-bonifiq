@@ -145,7 +145,7 @@ namespace ProvaPub.Tests
             var dataBase = DateTime.UtcNow;
             var orderInMonths = 10;
             var dateOutsideBusinessHours = new DateOnly(2025, 8, dayOutSide);
-            var hours = new TimeOnly(9);
+            var hours = new TimeOnly(9,30);
             var dataTime = dateOutsideBusinessHours.ToDateTime(hours);
             _customerRepository.GetCustomer(customerId, CancellationToken.None).Returns(new Customer()
             {
